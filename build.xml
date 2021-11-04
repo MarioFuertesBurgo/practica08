@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
  
-<project name="Sentencias de control" basedir="." default="todo">
+<project name="Exceptions" basedir="." default="todo">
     <property name="src"      value="./src"/>
     <property name="classes"  value="./classes"/>
     <property name="conf"     value="./etc"/>
      <property name="documentation" value="./doc"/>
  
-    <property name="paquetes" value="es.unileon.prg.tema6"/>
+    <property name="paquetes" value="es.unileon.prg1.date"/>
  
     <target name="clean">
       <delete dir="${classes}"/>
@@ -20,14 +20,14 @@
     </target>
  
     <target name="run" depends="compile">
-      <java classname="es.unileon.prg.tema6.PruebaPractica">
+      <java classname="es.unileon.prg1.date.MainDate">
          <classpath>
               <pathelement path="${classes}"/>
          </classpath>
       </java>
     </target>
  
-    <target name="doc"  description="Generate documentation p-ctl">
+    <target name="doc"  description="Generate documentation date">
       <mkdir dir="${documentation}"/>
       <javadoc sourcepath="${src}" destdir="${documentation}"/>
     </target>
