@@ -1,12 +1,16 @@
 package es.unileon.prg1.date;
 
+import java.nio.file.FileStore;
+
+import javax.xml.namespace.QName;
+
 public class Date {
 	private int day;
 	private int month;
 	private int year;
 	
 
-	// Constructor de la clase
+	// Class constructor
 	public Date (int day, int month, int year) throws DateException {
 		//this.month = month;
 		this.setMonth(month);
@@ -59,7 +63,7 @@ public class Date {
 	}
 	
 
-	//GetDaysOfMonth -- mira cuantos dias tiene que tener cada mes
+	//GetDaysOfMonth -- returns the number of days of the month given
 	private int getDaysOfMonth() {
 		int numDays;
 		
@@ -143,19 +147,9 @@ public class Date {
 	}
 
 
-	//monthsUntilEndYear -- returns the months until the end of the year
-	public int monthsUntilEndYear () {
-		int months = (int) 12 - this.month;
-		return months;
-	}
-
-
-	//dateToStringVersion --  returns the string version of a date: 12th of Nov 2017
-	public String dateToStringVersion () {
-		String dateInString;
-		String mes = "";
-		String superscript;
-		// Changes the variable mes depending of the month given
+	//nameMonth -- returns the name of the month
+	public String nameMonth() {
+		String mes="";
 		switch (this.month) {
 			case 1:
 				mes = "January";
@@ -197,6 +191,64 @@ public class Date {
 			default:
 				break;
 		}
+		return mes;
+
+	}
+
+
+	//dayOfTheMonthRight --  returns if the day of the month is right
+	public boolean dayOfTheMonthRight() {
+		if (this.day > this.getDaysOfMonth() || this.day < 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+	//seasonOfMonth -- returns the season 
+	public String seasonOfMonth() {
+		String season = "";
+		switch (this.month) {
+			case 1:
+			case 2:
+			case 12:
+				season = "Invierno";
+				break;
+			case 3:
+			case 4:
+			case 5:
+				season = "Primaver";
+				break;
+			case 6:
+			case 7:
+			case 8:
+				season = "Verano";
+				break;
+			case 9:
+			case 10:
+			case 11:
+				season = "Otoño";
+				break;
+		}
+		return season;
+	}
+
+
+	//monthsUntilEndYear -- returns the months until the end of the year
+	public int monthsUntilEndYear () {
+		int months = (int) 12 - this.month;
+		return months;
+	}
+
+
+	//dateToStringVersion --  returns the string version of a date: 12th of Nov 2017
+	public String dateToStringVersion () {
+		String dateInString;
+		String month = "";
+		String superscript;
+		// Changes the variable mes depending of the month given
+		month = nameMonth();
 
 		//Changes the superscript ordinals depending on the day
 		switch (this.day) {
@@ -220,7 +272,7 @@ public class Date {
 				superscript = "th";
 				break;
 		}
-		dateInString = this.day + superscript + " of " + mes + " of " + this.year;
+		dateInString = this.day + superscript + " of " + month + " of " + this.year;
 		return dateInString;
 		
 	}
@@ -273,15 +325,166 @@ public class Date {
 	//sameDaysMonths -- returns all the months with the same number of days
 	public String sameDaysMonths() {
 			StringBuffer result = new StringBuffer(60);
-
+			String mes = "";
 
 			for (int i = 0; i < 12; i++) {
 				if (getDaysOfMonth(i) == getDaysOfMonth()) {
-					result.append(result + " ");
+					if (i != this.month) {
+						switch (i) {
+							case 1:
+								mes = "January";
+								break;
+							case 2:
+								mes = "February";
+								break;
+							case 3:
+								mes = "March";
+								break;
+							case 4:
+								mes = "April";
+								break;
+							case 5:
+								mes = "May";
+								break;
+							case 6:
+								mes = "June";
+								break;
+							case 7:
+								mes = "July";
+								break;
+							case 8:
+								mes = "August";
+								break;
+							case 9:
+								mes = "September";
+								break;
+							case 10:
+								mes = "October";
+								break;
+							case 11:
+								mes = "November";
+								break;
+							case 12:
+								mes = "December";
+								break;
+						
+							default:
+								break;
+						}
+						result.append(mes + " ");
+					}
 				}
 			}
-
 			return result.toString();
+		}
+		
+	
+	//daysSinceStartOfYear -- returns the days since the beginning of the year
+	public int daysSinceStartOfYear() {
+		int days = 0;
+		switch (this.month) {
+			case 1:
+				days = this.day;
+				break;
+			case 2:
+				days = 31 + this.day;
+				break;
+			case 3:
+				days = 59 + this.day;
+				break;
+			case 4:
+				days = 90 + this.day;
+				break;
+			case 5:
+				days = 120 + this.day;
+				break;
+			case 6:
+				days = 151 + this.day;
+				break;
+			case 7:
+				days = 181 + this.day;
+				break;
+			case 8:
+				days = 212 + this.day;
+				break;
+			case 9:
+				days = 243 + this.day;
+				break;
+			case 10:
+				days = 273 + this.day;
+				break;
+			case 11:
+				days = 302 + this.day;
+				break;
+			case 12:
+				days = 334 + this.day;
+				break;
+			default:
+				break;
+		}
+		return days;
+	}
+
+
+	//attempsToRandomDateWhile -- returns the number of attemps needed to generate a random date equal to the given date uing WHILE
+	public int attempsToRandomDateWhile() {
+		int attemp = 0;
+		int numAttemps = 0;
+		while (attemp != daysSinceStartOfYear()) {
+			attemp = (int) (Math.random() * (366 - 1)) + 1;
+			numAttemps++;
+		}
+		return numAttemps;
 		
 	}
+
+
+	//attempsToRandomDateDoWhile -- returns the number of attemps needed to generate a random date equal to the given date uing DOWHILE
+	public int attempsToRandomDateDoWhile() {
+		int attemp = 0;
+		int numAttemps = 0;
+		do {
+			attemp = (int) (Math.random() * (366 - 1)) + 1;
+			numAttemps++;
+		} while (attemp != daysSinceStartOfYear());
+		
+		return numAttemps;
+		
+	}
+
+
+	//dayOfTheWeek -- returns the day of the week knowing the day of the week of the first week of that year
+	// firstDay is the dat of the week of the first week of that year, being 7 for Sunday, 1 for Monday, 2 for Tuesday...
+	public String dayOfWeek(int firstDay){
+			String name = "";
+ 
+			int day = (this.daysSinceStartOfYear()%7)+firstDay;
+			switch (day) {
+				case 7:
+					name = "Sunday";
+					break;
+				case 1:
+					name = "Monday";
+					break;
+				case 2:
+					name = "Tuesday";
+					break;
+				case 3:	
+					name = "wednesday";
+					break;
+				case 4:
+					name = "Thursday";
+					break;
+				case 5:
+					name = "Friday";
+					break;
+				case 6:
+					name = "Saturday";
+					break;
+			}
+		return name;
+	}
+
+
+
 }

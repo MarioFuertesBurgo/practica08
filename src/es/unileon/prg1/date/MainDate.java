@@ -6,9 +6,8 @@ public class MainDate {
 		Date today;
 
 		try {
-			today = new Date(11,11,2020);
+			today = new Date(7,10,2020);
 			System.out.println(today);
-			System.out.println(today.sameDaysMonths());;
 		} catch (DateException e) {
 			System.out.println(e.getMessage());
 		}
